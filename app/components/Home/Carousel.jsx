@@ -1,11 +1,11 @@
 import React from "react";
-import Image from "next/image";
+
 function Carousel() {
   return (
     <div className="w-screen h-[810px]   ">
-      <div className="w-full h-full flex flex-col sm:flex-row justify-between items-center py-1">
+      <div className="w-full h-full flex flex-col sm:flex-row justify-between items-center py-1 ">
         {/* new card 1  */}
-        <div className="h-[500px] sm:h-full sm:w-1/2 w-full  m-1 relative  ">
+        <div className="h-[500px] sm:h-full sm:w-1/2 w-full relative   ">
           {/* img */}
           <div className="w-full h-full sm:flex justify-center items-center p-2 bg-red-300">
             <img
@@ -15,11 +15,11 @@ function Carousel() {
             />
           </div>
           {/* text */}
-          <div className="sm:w-[1100px] w-full sm:h-[250px] px-4 py-6 absolute bottom-0 text-black flex flex-col sm:gap-y-4 gap-y-1  font-semibold ">
+          <div className=" w-full sm:h-[250px] ml-3 py-6 absolute bottom-0 text-black flex flex-col sm:gap-y-4 gap-y-1  font-semibold ">
             <span className="sm:w-32 w-24  px-2 py-1 h-10 bg-orange-500 text-white flex items-center justify-start rounded-md">
               technology
             </span>
-            <span className="text-black text-[12px]">
+            <span className="text-black text-[16px] lg:w-[800px]">
               {" "}
               Lorem ipsum dolor sit amet, consectetur adipisicing elit.
               Explicabo voluptas quaerat eaque accusamus aliquam possimus cumque
@@ -30,9 +30,9 @@ function Carousel() {
           </div>
         </div>
         {/* new cards 2  */}
-        <div className="sm:w-1/2 w-full h-full flex flex-col sm:flex-row gap-2 m-1">
+        <div className="sm:w-1/2 w-full h-full flex flex-col sm:flex-row gap-x-1 mt-1 sm:mt-0 sm:ml-1">
             {/* 1 */}
-          <div className="sm:w-1/2 2-full h-full  bg-black relative">
+          <div className="sm:w-1/2 w-full h-full  bg-black relative">
             <div className="w-full h-full sm:flex justify-center items-center p-2 bg-red-300">
               <img
                 className="object-fill hover:scale-110 duration-300 transition-all ease-in-out"
@@ -41,11 +41,11 @@ function Carousel() {
               />
             </div>
               {/* text */}
-          <div className="sm:w-[590px] w-full sm:h-[250px]  sm:px-4 sm:py-6 absolute bottom-0 text-black flex flex-col sm:gap-y-4 gap-y-1  font-semibold ">
+          <div className=" w-full sm:h-[250px]  sm:px-4 sm:py-6 absolute bottom-0 text-black flex flex-col sm:gap-y-4 gap-y-1  font-semibold ">
             <span className="sm:w-32 w-24  sm:px-2 sm:py-1 sm:h-10 bg-orange-500 text-white flex items-center justify-start rounded-md">
               technology
             </span>
-            <span className="text-black text-[10px]">
+            <span className="text-black lg:w-[400px] text-[13px]">
               {" "}
               Lorem ipsum dolor sit amet, consectetur adipisicing elit.
               Explicabo voluptas quaerat eaque accusamus aliquam possimus cumque
@@ -56,7 +56,7 @@ function Carousel() {
           </div>
           </div>
           {/* 2 */}
-          <div className="sm:w-1/2 2-full h-full  bg-black relative">
+          <div className="sm:w-1/2 w-full h-full  bg-black relative mt-1 sm:mt-0">
             <div className="w-full h-full sm:flex justify-center items-center p-2 bg-red-300">
               <img
                 className="object-fill hover:scale-110 duration-300 transition-all ease-in-out"
@@ -65,11 +65,11 @@ function Carousel() {
               />
             </div>
               {/* text */}
-          <div className="sm:w-[590px] w-full sm:h-[250px]  sm:px-4 sm:py-6 absolute bottom-0 text-black flex flex-col sm:gap-y-4 gap-y-1  font-semibold ">
+          <div className=" w-full sm:h-[250px]  sm:px-4 sm:py-6 absolute bottom-0 text-black flex flex-col sm:gap-y-4 gap-y-1  font-semibold ">
             <span className="sm:w-32 w-24  sm:px-2 sm:py-1 sm:h-10 bg-orange-500 text-white flex items-center justify-start rounded-md">
               technology
             </span>
-            <span className="text-black text-[10px]">
+            <span className="text-black text-[13px] lg:w-[400px]">
               {" "}
               Lorem ipsum dolor sit amet, consectetur adipisicing elit.
               Explicabo voluptas quaerat eaque accusamus aliquam possimus cumque
