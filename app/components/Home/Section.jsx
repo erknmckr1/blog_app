@@ -2,11 +2,12 @@ import React from "react";
 
 function Section() {
   return (
-    <section className="py-10 lg:py-20 w-screen h-auto">
+    <div>
+      <section className="py-10 sm:px-10 lg:py-20 w-screen h-auto ">
       <div className="w-full h-full flex justify-center ">
         <div className=" lg:container w-full p-1">
           <h1 className="px-4 font-semibold text-[20px]">Recent News</h1>
-          <div className="w-full h-full flex flex-col sm:flex-row justify-between ">
+          <div className="w-full h-full flex flex-col sm:flex-row  ">
             {/* left side */}
             <div className="lg:w-3/4 m-3 h-auto  ">
               <NewCard />
@@ -23,6 +24,7 @@ function Section() {
         </div>
       </div>
     </section>
+    </div>
   );
 }
 
@@ -32,7 +34,7 @@ export default Section;
 // left side 
 export function NewCard() {
   return (
-    <div className="lg:w-[855px] lg:h-[260px] h-[580px] border p-1 my-6  ">
+    <div className="lg:w-[855px] lg:h-[260px] h-[580px] p-1 my-6  ">
       <div className="w-full h-full flex flex-col lg:flex-row relative">
         {/* img */}
         <img className="lg:w-1/4 w-full h-full  hover:scale-90 transition-all duration-300" src="/vercel.svg" alt="" />
@@ -67,7 +69,7 @@ export function NewCard() {
 
 export function Article() {
   return (
-    <div className="w-full h-auto mt-5">
+    <div className="w-full h-auto mt-5 border border-1">
         <div className="h-auto">
           {/* title */}
             <h1 className="font-semibold mb-8 text-[18px] underline">Trend Videos</h1>

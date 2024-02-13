@@ -42,7 +42,7 @@ function Header() {
             </nav>
             {/* icons */}
             <div className="w-[180px] h-full flex  items-center justify-center gap-x-3 px-2  text-white ">
-              <div className="px-2"><FaUser /></div>
+              <div className="px-2"><a href="/auth/login"><FaUser /></a></div>
               <div className="px-2">a</div>
               <div className="px-2">a</div>
             </div>
