@@ -5,11 +5,13 @@ import Link from "next/link";
 import { SiGmail } from "react-icons/si";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession, signIn, signOut, getSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 function login() {
   const { data: session } = useSession();
   const [users, getUsers] = useState([]);
+  const { push } = useRouter();
 
   const onSubmit = async () => {
     try {
@@ -24,6 +26,7 @@ function login() {
     }
   };
 
+  console.log(session);
   const {
     values,
     errors,
@@ -61,17 +64,27 @@ function login() {
     },
   ];
 
+  console.log(session);
+  // Kullanıcı gırısı oldugunda yada varsa biz sayfa yonlendırmesını asagıdakı gıbı yapıyoruz fakat bu işlemde
+  // diyelim ki Home sayfasından profıle sayfasına tıkladık eger kullanıcı gırısı var ıse dırekt profile sayfasına
+  // gıtmesını ısterız. Fakat useEffect ıle yaptıgımız taktırde once logın sayfasına daha sonra profile sayfasına
+  // gittigi için bu ıslemı sayfa yuklenmeden sunucu kısmında yapmamız gerekıyor bunun ıcınde getServerSideProps
+  // kullancagız bu sayfa henuz yuklenmeden calısacak.
+
   useEffect(() => {
     const getUser = async () => {
-      try {
-        const res = await axios.get("http://localhost:3000/api/getUser");
-        getUsers(res.data);
-      } catch (err) {
-        console.log(err);
+      const users = await axios.get("http://localhost:3000/api/getUser");
+      const user = users.data.find((item) => item.user_email === session?.user.email);
+  
+      if (user && session) {
+        push(`/profile/${user.user_id}`);
       }
     };
+  
     getUser();
-  }, []);
+  }, [session]);
+  
+
 
   return (
     <div className="min-h-[calc(100vh-75px)] mx-auto container border w-full flex justify-center  ">
@@ -113,3 +126,28 @@ function login() {
 }
 
 export default login;
+
+export const getServerSideProps = async (context) => {
+  const { req } = context;
+
+  const session = await getSession({ req });
+
+  const users = await axios.get("http://localhost:3000/api/getUser");
+  const user = users.data.find((item) => item.user_email === session?.user.email);
+
+  if (user && session) {
+    return {
+      redirect: {
+        destination: "/profile/" + user.user_id,
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {
+      user: users ? users.data : null,
+    },
+  };
+};
+

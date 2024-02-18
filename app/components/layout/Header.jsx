@@ -10,7 +10,6 @@ function Header() {
     setIsMenuOpen(!isMenuOpen);
   }
 
-  console.log(isMenuOpen)
   return ( 
     <div className="w-full h-[75px] px-[16px] py-[8px] bg-[#49A9DF] relative z-50 ">
       <div className="w-full h-full  flex  items-center ">

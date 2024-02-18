@@ -15,28 +15,41 @@ export const authOptions = {
       async authorize(credentials, req) {
         const email = credentials.email;
         const password = credentials.password;
-
         const client = await pool.connect();
 
         try {
           const result = await client.query(
-            "SELECT * from user_ınfo WHERE user_email = $1 user_password = $2  ",
-            [email,password]
+            "SELECT * FROM user_ınfo WHERE user_email = $1",
+            [email]
           );
-          console.log(result.rows[0].user_email)
+
           if (result.rows.length > 0) {
-            return { email: result.rows[0].user_email };
+            const user = result.rows[0];
+            console.log(user);
+            if (user.user_password === password) {
+              return {
+                email: user.user_email,
+                name: user.user_name,
+              };
+            } else {
+              throw new Error("Password is incorrect");
+            }
           } else {
-            return {
-              message: "Kullanıcı bulunamadı. Email yada Password hatalı.",
-            };
+            throw new Error("User not found");
           }
         } catch (err) {
-          console.error("Error during auth", err);
+          console.error("Error during authentication:", err.message);
+          throw new Error("Authentication failed");
+        } finally {
+          client.release();
         }
       },
     }),
   ],
+  session: {
+    maxAge: 60 * 60,
+    jwt: true,
+  },
   pages: {
     signIn: "/auth/login",
   },
