@@ -5,8 +5,9 @@ import Link from "next/link";
 import { SiGmail } from "react-icons/si";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useSession, signIn, signOut, getSession } from "next-auth/react";
+import { useSession, signIn, getSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 
 function login() {
   const { data: session } = useSession();
@@ -21,12 +22,17 @@ function login() {
         email: values.email,
         password: values.password,
       });
+
+      if (res.status === 200) {
+        toast.success("Signed in");
+      } else {
+        toast.warning("Username or password is wrong!");
+      }
     } catch (err) {
       console.log(err);
     }
   };
 
-  console.log(session);
   const {
     values,
     errors,
@@ -64,7 +70,7 @@ function login() {
     },
   ];
 
-  console.log(session);
+    console.log(session)
   // Kullanıcı gırısı oldugunda yada varsa biz sayfa yonlendırmesını asagıdakı gıbı yapıyoruz fakat bu işlemde
   // diyelim ki Home sayfasından profıle sayfasına tıkladık eger kullanıcı gırısı var ıse dırekt profile sayfasına
   // gıtmesını ısterız. Fakat useEffect ıle yaptıgımız taktırde once logın sayfasına daha sonra profile sayfasına
@@ -73,7 +79,7 @@ function login() {
 
   useEffect(() => {
     const getUser = async () => {
-      const users = await axios.get("http://localhost:3000/api/getUser");
+      const users = await axios.get(`${process.env.NEXT_PUBLIC_url}getUser`);
       const user = users.data.find((item) => item.user_email === session?.user.email);
   
       if (user && session) {
@@ -87,7 +93,7 @@ function login() {
 
 
   return (
-    <div className="min-h-[calc(100vh-75px)] mx-auto container border w-full flex justify-center  ">
+    <div className="min-h-[calc(100vh-75px)] mx-auto container border w-full flex justify-center  relative ">
       <form
         onSubmit={handleSubmit}
         className="flex flex-col  items-center justify-center gap-y-4 w-[600px]"
@@ -100,6 +106,7 @@ function login() {
               {...input}
               onChange={handleChange}
               onBlur={handleBlur}
+              prop=" w-[350px] xl:w-[500px]"
             />
           ))}
         </div>
@@ -132,7 +139,7 @@ export const getServerSideProps = async (context) => {
 
   const session = await getSession({ req });
 
-  const users = await axios.get("http://localhost:3000/api/getUser");
+  const users = await axios.get(`${process.env.NEXT_PUBLIC_url}getUser`);
   const user = users.data.find((item) => item.user_email === session?.user.email);
 
   if (user && session) {

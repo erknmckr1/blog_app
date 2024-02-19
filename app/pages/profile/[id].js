@@ -5,7 +5,11 @@ import Input from "@/components/uı/Input";
 import { useFormik } from "formik";
 import { FaArrowCircleLeft, FaArrowCircleRight } from "react-icons/fa";
 import axios from "axios";
+import { signOut } from "next-auth/react";
 import { getSession, useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import { toast } from "react-toastify";
+import Account from "@/components/profile/Account";
 
 function Profile({ session_user }) {
   const { data: session } = useSession();
@@ -13,6 +17,8 @@ function Profile({ session_user }) {
   const [imageSrc, setImageSrc] = useState("");
   const [file, setFile] = useState();
   const [showMenu, setShowMenu] = useState(true);
+
+  const {push} = useRouter();
 
   const handleShowMenu = () => {
     setShowMenu((prev) => !prev);
@@ -46,7 +52,14 @@ function Profile({ session_user }) {
     },
   });
 
-  console.log(values.name);
+  // 
+  const handleSignOut = ()=> {
+    if(confirm("Are you sure you want to log out?")){
+      signOut({redirect:false})
+      toast.dark("Successful exit.")
+      push("/auth/login")
+    }
+  }
 
   const ınputs = [
     { value: values.name, placeholder: "Name", type: "text", id: "1",name:"name" },
@@ -144,57 +157,13 @@ function Profile({ session_user }) {
             <button className="hover:font-semibold p-2 btn hover:underline transition-all ease-in duration-300 ">
               Sifre
             </button>
-            <button className="hover:font-semibold p-2 btn hover:underline transition-all ease-in duration-300 ">
-              Yorumlar
+            <button onClick={handleSignOut} className="hover:font-semibold p-2 btn !bg-red-600  hover:underline transition-all ease-in duration-300 ">
+              Çıkıs Yap
             </button>
           </div>
         </div>
         {/* middle side */}
-        <div className="xl:w-3/4 w-full h-full p-4  ">
-          <span className="font-semibold text-[30px] ">Account Setting</span>
-          <div className="sm:flex justify-between ">
-            <div className="sm:w-3/4 h-full py-3">
-              <form className="w-full flex flex-wrap justify-center gap-5">
-                {ınputs.map((item) => (
-                  <div key={item.id} className="">
-                    <Input
-                      prop=" w-[350px] xl:w-[500px]"
-                      value={item.value}
-                      {...item}
-                     onChange={handleChange}
-                    />
-                  </div>
-                ))}
-              </form>
-            </div>
-            {/* upload ımg */}
-            <div className="xl:w-1/4 w-full">
-              <label className="flex  gap-2 items-center justify-center">
-                <input
-                  onChange={(e) => handleFileChange(e)}
-                  type="file"
-                  className="hidden"
-                />
-                <button className="btn pointer-events-none mt-3">
-                  Select Image
-                </button>
-                {imageSrc && (
-                  <div>
-                    {/*eslint-disable-next-line @next/next/no-img-element*/}
-                    <img
-                      src={imageSrc}
-                      alt=""
-                      className="w-12 h-12 rounded-full"
-                    />
-                  </div>
-                )}
-              </label>
-            </div>
-          </div>
-          <div className="w-full flex xl:justify-start   ">
-            <button className="btn mt-5">Onayla</button>
-          </div>
-        </div>
+      <Account handleChange={handleChange} ınputs={ınputs} handleFileChange={handleFileChange} setImageSrc={setImageSrc} imageSrc={imageSrc}/>
         {/* right side */}
       </div>
     </div>
@@ -217,7 +186,7 @@ export const getServerSideProps = async (context) => {
     };
   }
 
-  const users = await axios.get(`http://localhost:3000/api/getUser`);
+  const users = await axios.get(`${process.env.NEXT_PUBLIC_url}getUser`);
   const user = users.data.find(
     (item) => item.user_email === session?.user.email
   );

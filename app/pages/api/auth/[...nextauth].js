@@ -19,13 +19,12 @@ export const authOptions = {
 
         try {
           const result = await client.query(
-            "SELECT * FROM user_ınfo WHERE user_email = $1",
+            "SELECT * FROM user_info WHERE user_email = $1",
             [email]
           );
 
           if (result.rows.length > 0) {
             const user = result.rows[0];
-            console.log(user);
             if (user.user_password === password) {
               return {
                 email: user.user_email,

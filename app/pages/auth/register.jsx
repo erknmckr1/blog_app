@@ -2,8 +2,12 @@ import { useFormik } from "formik";
 import React from "react";
 import Input from "@/components/uı/Input";
 import Link from "next/link";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 
 function register() {
+ const router = useRouter()
   const {
     values,
     errors,
@@ -14,7 +18,7 @@ function register() {
     resetForm,
   } = useFormik({
     initialValues: {
-      fullName: "",
+      name: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -24,7 +28,7 @@ function register() {
   const inputs = [
     {
       id: 1,
-      name: "fullName",
+      name: "name",
       type: "text",
       placeholder: "Your Full Name",
       value: values.fullName,
@@ -62,10 +66,26 @@ function register() {
       autoComplete: "new-password",
     },
   ];
+
+  const  userRegistration = async (e) => {
+    e.preventDefault();
+    const userInfo = {user_name:values.name,user_email:values.email,user_password:values.password,user_confirmPassword:values.confirmPassword};
+    try {
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_url}/getUser/register`,userInfo);
+      if(res.status === 200){
+        toast.success("Registration successful")
+        router.push("/auth/login")
+      }
+    } catch (err) {
+      toast.error("Passwords do not match or email is already in use")
+      console.log(err)
+    }
+  }
+  
   return (
     <div className="min-h-[calc(100vh-75px)] mx-auto container border w-full flex justify-center  ">
-      <form className="flex flex-col  items-center justify-center gap-y-4 w-[600px]">
-        <span className="mt-5 text-[30px] font-semibold">   Register User</span>
+      <form  className="flex flex-col  items-center justify-center gap-y-4 w-[600px]">
+        <span className="mt-5 text-[30px] font-semibold">Register User</span>
         <div className=" flex flex-col gap-y-4">
           {inputs.map((input) => (
             <Input
@@ -73,19 +93,20 @@ function register() {
               {...input}
               onChange={handleChange}
               onBlur={handleBlur}
+              prop=" w-[350px] xl:w-[500px]"
             />
           ))}
         </div>
         <div className="flex flex-col items-center justify-center w-full mt-6 gap-y-3 text-black">
-          <button type="submit" className="btn">
+          <button onClick={(e)=>userRegistration(e)} type="submit" className="btn">
             Register
           </button>
           <button
             type="button"
-            className="btn rounden-lg  flex justify-center items-center "
+            className="btn rounden-lg  flex justify-center items-center text-white "
           >
             {" "}
-            GMAİL
+            G
           </button>
         </div>
         <Link href="/auth/login">

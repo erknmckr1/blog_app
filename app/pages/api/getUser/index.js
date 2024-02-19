@@ -6,7 +6,7 @@ const handler = async (req, res) => {
   if (method === "GET") {
     try {
       const client = await pool.connect();
-      const result = await client.query("SELECT * FROM public.user_ınfo");
+      const result = await client.query("SELECT * FROM public.user_info");
       const users = result.rows;
       res.status(200).json(users);
     } catch (err) {
