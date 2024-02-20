@@ -12,6 +12,13 @@ const handler = async (req, res) => {
     } catch (err) {
       res.status(500).json({ message: "Internal server error." });
     }
+  }else if (method ==="POST"){
+    const {} = req.body
+    try {
+      
+    } catch (err) {
+      console.log(err)
+    }
   }
 };
 

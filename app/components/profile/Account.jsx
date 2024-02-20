@@ -1,6 +1,6 @@
 import React from 'react'
 import Input from '../uı/Input'
-function Account({ınputs,handleFileChange,handleChange,imageSrc}) {
+function Account({ınputs,handleFileChange,handleChange,imageSrc,onSubmit}) {
 
   
   return (
@@ -46,7 +46,7 @@ function Account({ınputs,handleFileChange,handleChange,imageSrc}) {
       </div>
     </div>
     <div className="w-full flex xl:justify-start   ">
-      <button className="btn mt-5">Onayla</button>
+      <button onClick={onSubmit} className="btn mt-5">Onayla</button>
     </div>
   </div>
   )

@@ -18,7 +18,7 @@ function Profile({ session_user }) {
   const [file, setFile] = useState();
   const [showMenu, setShowMenu] = useState(true);
 
-  const {push} = useRouter();
+  const { push } = useRouter();
 
   const handleShowMenu = () => {
     setShowMenu((prev) => !prev);
@@ -36,71 +36,129 @@ function Profile({ session_user }) {
     //!Yüklenen dosyanın ıcerıgını base64 formatında vır verı olarak dondurduk.
     reader.readAsDataURL(changeEvent.target.files[0]);
   };
+
   const { values, handleSubmit, handleChange } = useFormik({
     initialValues: {
       name: session_user.user_name,
       surname: session_user.user_surname,
       email: session_user.user_email,
       password: session_user.user_password,
-      confirmPassword: session_user.user_confirmPassword || "",
-      id: session_user.user_id ,
-      phoneNumber: session_user.user_phoneNumber,
-      dateOfBirth: session_user.user_dateOfBirth ||"",
+      confirmPassword: session_user.user_confirmpassword || "",
+      id: session_user.user_id,
+      phoneNumber: session_user.user_phonenumber,
+      dateOfBirth: session_user.user_dateofbirth || "",
       country: session_user.user_country || "",
-      city: session_user.user_city || "" ,
-      state: session_user.user_state ||"" ,
+      city: session_user.user_city || "",
+      state: session_user.user_state || "",
+      img:session_user.user_img
     },
   });
 
-  // 
-  const handleSignOut = ()=> {
-    if(confirm("Are you sure you want to log out?")){
-      signOut({redirect:false})
-      toast.dark("Successful exit.")
-      push("/auth/login")
+  const onSubmit = async () => {
+    try {
+      const data = new FormData();
+      data.append("file", file);
+      data.append("upload_preset", "ecblog");
+  
+      const uploadImg = await axios.post(
+        `https://api.cloudinary.com/v1_1/dh1medzkb/image/upload`,
+        data
+      );
+      const { url } = uploadImg.data;
+      const updatedAccount = { ...values  , img: url };
+      console.log(updatedAccount)
+      const res = await axios.put(
+        `${process.env.NEXT_PUBLIC_url}getUser/updateUser/${session_user.user_id}`,
+        updatedAccount
+      );
+  
+      if (res.status === 200) {
+        toast.success("Updated Successfully.");
+      }
+    } catch (err) {
+      console.log(err);
     }
-  }
+  };
+
+  //
+  const handleSignOut = () => {
+    if (confirm("Are you sure you want to log out?")) {
+      signOut({ redirect: false });
+      toast.dark("Successful exit.");
+      push("/auth/login");
+    }
+  };
 
   const ınputs = [
-    { value: values.name, placeholder: "Name", type: "text", id: "1",name:"name" },
+    {
+      value: values.name,
+      placeholder: "Name",
+      type: "text",
+      id: "1",
+      name: "name",
+    },
     {
       value: values.surname,
       placeholder: "Surname",
       type: "text",
       id: "2",
-      name:"surname"
+      name: "surname",
     },
-    { value: values.email, placeholder: "Email", type: "text", id: "3",name:"email" },
+    {
+      value: values.email,
+      placeholder: "Email",
+      type: "text",
+      id: "3",
+      name: "email",
+    },
     {
       value: values.phoneNumber,
       placeholder: "Phone Number",
       id: "4",
-      name:"phoneNumber"
+      name: "phoneNumber",
     },
     {
       value: values.password,
       placeholder: "Password",
       type: "password",
       id: "5",
-      name:"password"
+      name: "password",
     },
     {
       value: values.confirmPassword,
       placeholder: "Confirm Password",
       type: "password",
       id: "6",
-      name:"confirmPassword"
+      name: "confirmPassword",
     },
     {
       value: values.dateOfBirth,
       placeholder: "Data Of Birth",
       id: "7",
       type: "date",
-      name:"dateOfBirth"
+      name: "dateOfBirth",
     },
-    { value: values.country, placeholder: "County", id: "8", type: "text",name:"country" },
-    { value: values.city, placeholder: "City", id: "9", type: "text",name:"city" },
-    { value: values.state, placeholder: "State", id: "10", type: "text",name:"state" },
+    {
+      value: values.country,
+      placeholder: "County",
+      id: "8",
+      type: "text",
+      name: "country",
+    },
+    {
+      value: values.city,
+      placeholder: "City",
+      id: "9",
+      type: "text",
+      name: "city",
+    },
+    {
+      value: values.state,
+      placeholder: "State",
+      id: "10",
+      type: "text",
+      name: "state",
+    },
   ];
 
   return (
@@ -132,7 +190,7 @@ function Profile({ session_user }) {
               width={100}
               height={100}
               className="w-[140px] h-[140px] rounded-full "
-              src="/OIP.jpeg"
+              src={`${values.img}`}
             />
             <span className="text-xl font-semibold py-3 ">{values.name}</span>
             <span className="font-semibold py-1">{values.email}</span>
@@ -157,13 +215,23 @@ function Profile({ session_user }) {
             <button className="hover:font-semibold p-2 btn hover:underline transition-all ease-in duration-300 ">
               Sifre
             </button>
-            <button onClick={handleSignOut} className="hover:font-semibold p-2 btn !bg-red-600  hover:underline transition-all ease-in duration-300 ">
+            <button
+              onClick={handleSignOut}
+              className="hover:font-semibold p-2 btn !bg-red-600  hover:underline transition-all ease-in duration-300 "
+            >
               Çıkıs Yap
             </button>
           </div>
         </div>
         {/* middle side */}
-      <Account handleChange={handleChange} ınputs={ınputs} handleFileChange={handleFileChange} setImageSrc={setImageSrc} imageSrc={imageSrc}/>
+        <Account
+          handleChange={handleChange}
+          ınputs={ınputs}
+          handleFileChange={handleFileChange}
+          setImageSrc={setImageSrc}
+          imageSrc={imageSrc}
+          onSubmit={onSubmit}
+        />
         {/* right side */}
       </div>
     </div>
