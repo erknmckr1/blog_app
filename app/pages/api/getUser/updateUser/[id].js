@@ -30,7 +30,7 @@ const handler = async (req, res) => {
     user_state: state,
     user_img: img,
   };
-  console.log(userData.user_img);
+ 
   let client;
   try {
     client = await pool.connect();

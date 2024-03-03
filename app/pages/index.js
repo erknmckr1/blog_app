@@ -16,8 +16,7 @@ export default function Home() {
           rel="preconnect"
           href="https://fonts.gstatic.com"
           crossOrigin="true"
-        />
-       
+        />  
       </Head>
       <>
       <Carousel />

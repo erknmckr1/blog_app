@@ -10,10 +10,11 @@ import { getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import Account from "@/components/profile/Account";
+import CreatePost from "@/components/profile/CreatePost";
 
 function Profile({ session_user }) {
   const { data: session } = useSession();
-  const [status, setStatus] = useState(0);
+  const [status, setStatus] = useState(1);
   const [imageSrc, setImageSrc] = useState("");
   const [file, setFile] = useState();
   const [showMenu, setShowMenu] = useState(true);
@@ -50,7 +51,7 @@ function Profile({ session_user }) {
       country: session_user.user_country || "",
       city: session_user.user_city || "",
       state: session_user.user_state || "",
-      img:session_user.user_img
+      img: session_user.user_img,
     },
   });
 
@@ -59,19 +60,19 @@ function Profile({ session_user }) {
       const data = new FormData();
       data.append("file", file);
       data.append("upload_preset", "ecblog");
-  
+
       const uploadImg = await axios.post(
         `https://api.cloudinary.com/v1_1/dh1medzkb/image/upload`,
         data
       );
       const { url } = uploadImg.data;
-      const updatedAccount = { ...values  , img: url };
-      console.log(updatedAccount)
+      const updatedAccount = { ...values, img: url };
+      console.log(updatedAccount);
       const res = await axios.put(
         `${process.env.NEXT_PUBLIC_url}getUser/updateUser/${session_user.user_id}`,
         updatedAccount
       );
-  
+
       if (res.status === 200) {
         toast.success("Updated Successfully.");
       }
@@ -163,7 +164,7 @@ function Profile({ session_user }) {
 
   return (
     <div className="min-h-[calc(100vh-75px)] w-screen relative sm:static">
-      <div className="w-full h-full flex ">
+      <div className="w-full h-full flex px-3 ">
         <button
           onClick={handleShowMenu}
           className={`absolute z-50 top-10 xl:hidden left-2 text-[30px] ${
@@ -197,7 +198,16 @@ function Profile({ session_user }) {
             <span className="font-semibold py-1">{values.id}</span>
           </div>
           <div className="w-full h-auto py-4 flex flex-col items-center gap-y-3 justify-center">
-            <button className="hover:font-semibold p-2 btn hover:underline transition-all ease-in duration-300 ">
+            <button
+              onClick={() => {
+                setStatus(1);
+              }}
+              className={`${
+                status === 1
+                  ? "hover:font-semibold p-2 btn !bg-yellow-500 hover:underline transition-all ease-in duration-300"
+                  : "hover:font-semibold p-2 btn hover:underline transition-all ease-in duration-300"
+              }`}
+            >
               Gönderi Olustur
             </button>
             <button className="hover:font-semibold p-2 btn hover:underline transition-all ease-in duration-300 ">
@@ -209,7 +219,16 @@ function Profile({ session_user }) {
             <button className="hover:font-semibold p-2 btn hover:underline transition-all ease-in duration-300 ">
               Yorumlar
             </button>
-            <button className="hover:font-semibold p-2 btn hover:underline transition-all ease-in duration-300 ">
+            <button
+              onClick={() => {
+                setStatus(0);
+              }}
+              className={`${
+                status === 0
+                  ? "hover:font-semibold p-2 btn !bg-yellow-500 hover:underline transition-all ease-in duration-300"
+                  : "hover:font-semibold p-2 btn hover:underline transition-all ease-in duration-300"
+              }`}
+            >
               Hesap
             </button>
             <button className="hover:font-semibold p-2 btn hover:underline transition-all ease-in duration-300 ">
@@ -224,14 +243,17 @@ function Profile({ session_user }) {
           </div>
         </div>
         {/* middle side */}
-        <Account
-          handleChange={handleChange}
-          ınputs={ınputs}
-          handleFileChange={handleFileChange}
-          setImageSrc={setImageSrc}
-          imageSrc={imageSrc}
-          onSubmit={onSubmit}
-        />
+        {status === 0 && (
+          <Account
+            handleChange={handleChange}
+            ınputs={ınputs}
+            handleFileChange={handleFileChange}
+            setImageSrc={setImageSrc}
+            imageSrc={imageSrc}
+            onSubmit={onSubmit}
+          />
+        )}
+        {status === 1 && <CreatePost session_user={session_user} session={session} />}
         {/* right side */}
       </div>
     </div>
