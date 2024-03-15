@@ -11,8 +11,8 @@ import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import Account from "@/components/profile/Account";
 import CreatePost from "@/components/profile/CreatePost";
-
-function Profile({ session_user }) {
+import Posts from "@/components/profile/Posts";
+function Profile({ session_user,posts }) {
   const { data: session } = useSession();
   const [status, setStatus] = useState(1);
   const [imageSrc, setImageSrc] = useState("");
@@ -25,6 +25,8 @@ function Profile({ session_user }) {
     setShowMenu((prev) => !prev);
   };
 
+  // random unıq karakter
+  
   // dosya secme ıslemlerı
   const handleFileChange = (changeEvent) => {
     const reader = new FileReader(); // fileReader nesnesı dosyanın ıcerıgını okumak ıcın kullanılır.
@@ -210,7 +212,14 @@ function Profile({ session_user }) {
             >
               Gönderi Olustur
             </button>
-            <button className="hover:font-semibold p-2 btn hover:underline transition-all ease-in duration-300 ">
+            <button  onClick={() => {
+                setStatus(2);
+              }}
+              className={`${
+                status === 2
+                  ? "hover:font-semibold p-2 btn !bg-yellow-500 hover:underline transition-all ease-in duration-300"
+                  : "hover:font-semibold p-2 btn hover:underline transition-all ease-in duration-300"
+              }`}>
               Gönderiler
             </button>
             <button className="hover:font-semibold p-2 btn hover:underline transition-all ease-in duration-300 ">
@@ -254,6 +263,7 @@ function Profile({ session_user }) {
           />
         )}
         {status === 1 && <CreatePost session_user={session_user} session={session} />}
+        {status === 2 && <Posts posts={posts} session_user={session_user} session={session} />}
         {/* right side */}
       </div>
     </div>
@@ -266,7 +276,7 @@ export const getServerSideProps = async (context) => {
   const { req, params } = context;
 
   const session = await getSession({ req });
-
+  // session yoksa login sayfasına yonlendır.
   if (!session) {
     return {
       redirect: {
@@ -281,10 +291,14 @@ export const getServerSideProps = async (context) => {
     (item) => item.user_email === session?.user.email
   );
 
+  
+  const posts = await axios.get(`${process.env.NEXT_PUBLIC_url}content`);
+  const user_posts = posts.data.filter(item => item.user_email === session?.user.email)
   return {
     props: {
       session: session.user,
       session_user: user ? user : null,
+      posts : posts ? user_posts : null,
     },
   };
 };

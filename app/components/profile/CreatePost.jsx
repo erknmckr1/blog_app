@@ -10,7 +10,7 @@ function CreatePost({ session_user, session }) {
   const [model, setModel] = useState(" ");
   const [category, setCategory] = useState("");
   const [tags, setTags] = useState("");
-  console.log(session_user);
+  
   // ssr da calısmayı onlemek ıcın
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -32,14 +32,24 @@ function CreatePost({ session_user, session }) {
     setModel(e);
   };
 
+   // random unıq ıd (math rondom 0 ile 1 arasında ondalık deger uretır.)
+ const generateRandomNum = () => {
+  var randomNumber = (Math.floor( 100000 + Math.random() * 900000));
+  return randomNumber;
+ };
+
+
   const contentInfo = {
+    post_id: generateRandomNum(),
     user_id: session_user.user_id,
     user_name: session_user.user_name,
     user_surname: session_user.user_surname,
+    user_email:session_user.user_email,
     post_content: model,
     user_img: session_user.user_img,
     post_category: category,
     post_tags: tags,
+    post_status:true
   };
 
   const handleSubmit = (e) => {
@@ -163,6 +173,10 @@ function CreatePost({ session_user, session }) {
       loading: () => <p>Yükleniyor...</p>,
     }
   );
+
+
+ const randomNum = generateRandomNum();
+
 
   return (
     <div className="xl:w-3/4 w-full h-full p-4">
