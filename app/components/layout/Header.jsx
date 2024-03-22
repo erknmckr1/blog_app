@@ -23,7 +23,7 @@ function Header() {
             <nav className="sm:w-[calc(100%_-_180px)] w-full h-full ">
               <ul className="flex w-full h-full items-center text-white">
                 <li className="px-[14px] py-[12px] text-[16px] font-semibold ">
-                  Home
+                  <a href="/">Home</a>
                 </li>
                 <li className="px-[14px] py-[12px] text-[16px] font-semibold ">
                   News

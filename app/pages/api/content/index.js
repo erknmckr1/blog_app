@@ -1,4 +1,5 @@
 import pool from "@/utils/dbConnect";
+import { postcss } from "autoprefixer";
 
 
 const handler = async (req, res) => {
@@ -14,6 +15,9 @@ const handler = async (req, res) => {
     post_category,
     post_id,
     post_status,
+    post_shortdesc,
+    cover_img,
+    post_title
   } = req.body;
 
   console.log(post_id)
@@ -24,8 +28,8 @@ const handler = async (req, res) => {
     try {
       const newPost = await client.query(
         `INSERT INTO public.user_posts(
-            user_id, user_name,user_surname,user_email,post_content,user_img,post_tags,post_category,post_id,post_status
-        ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)`,
+            user_id, user_name,user_surname,user_email,post_content,user_img,post_tags,post_category,post_id,post_status,post_shortdesc,cover_img,post_title
+        ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)`,
         [
           user_id,
           user_name,
@@ -37,6 +41,9 @@ const handler = async (req, res) => {
           post_category,
           post_id,
           post_status,
+          post_shortdesc,
+          cover_img,
+          post_title
         ]
       );
       res.status(200).json({ message: "Post created succesfully" });
@@ -50,7 +57,7 @@ const handler = async (req, res) => {
     const client = await pool.connect();
     try {
       const { rows } = await client.query(
-        `SELECT user_id, user_name, user_surname,user_email, post_content, user_img, post_category, post_tags,post_id
+        `SELECT user_id, user_name, user_surname,user_email, post_content, user_img, post_category, post_tags,post_id,cover_img,post_title,post_shortdesc
         FROM public.user_posts`
       );
       res.status(200).json(rows);

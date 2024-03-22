@@ -1,6 +1,7 @@
 import React from "react";
 
-function Section() {
+function Section({posts}) {
+
   return (
     <div>
       <section className="py-10 sm:px-10 lg:py-20 w-screen h-auto ">
@@ -10,9 +11,9 @@ function Section() {
           <div className="w-full h-full flex flex-col sm:flex-row  ">
             {/* left side */}
             <div className="lg:w-3/4 m-3 h-auto  ">
-              <NewCard />
-              <NewCard />
-              <NewCard />
+             {posts.map((item,index)=>(
+              <NewCard item={item}/>
+             ))}
             </div>
             {/* right side */}
             <div className="lg:w-1/4 m-3">
@@ -32,31 +33,28 @@ export default Section;
 
 
 // left side 
-export function NewCard() {
+export function NewCard({item}) {
   return (
     <div className="lg:w-[855px] lg:h-[260px] h-[580px] p-1 my-6  ">
       <div className="w-full h-full flex flex-col lg:flex-row relative">
         {/* img */}
-        <img className="lg:w-1/4 w-full h-full  hover:scale-90 transition-all duration-300" src="/vercel.svg" alt="" />
+        <img className="lg:w-1/4 w-full h-full  hover:scale-90 transition-all duration-300" src={`${item.cover_img ? item.cover_img : "/vercel.svg"}`} alt="" />
         {/* text side */} 
         <div className="flex flex-col w-full h-full">
           {/* text-1 */}
           <span className="lg:text-[24px] lg:w-[700px] mt-4 py-2   px-4 bg-slate-200 static lg:absolute right-5">
-            Lorem, ipsum dolor sit amet consectetur adipisicintatibus. Facere
-            numquam veritatis corporis.
+            {item.post_title && item.post_title}
           </span>
           {/* text & date */}
           <div className="static lg:absolute lg:bottom-2 px-3 mt-2 lg:mt-0 ">
           <span className="text-[14px]">
-            Aenean interdum arcu blandit, vehicula magna non, placerat elit.
-            Mauris et pharetratortor. Suspendissea sodales urna. In at augue
-            elit. Vivamus enim nibh, maximus ac felis nec, maximus tempor odio
+            {item.post_shortdesc && item.post_shortdesc}
           </span>
          <div className=" text-[12px] py-2 text-gray-400">
-            <span className="bg-orange-500 p-1 font-semibold text-white">GADGETS</span>
+            <span className="bg-orange-500 p-1 font-semibold text-white">{item.post_category}</span>
             <span> 21 JULY, 2017 /</span>
-            <span> BY MATILDA</span>
-            <span> 1114</span>
+            <span> {item.user_name && item.user_name}</span>
+            <span> {item.post_id}</span>
          </div>
           </div>
         </div>

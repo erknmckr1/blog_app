@@ -9,7 +9,7 @@ const handler = async (req, res) => {
     try {
       const newUser = await client.query(
         `INSERT INTO public."user_info"(
-                 user_name, user_email, user_password, "user_confirmPassword")
+                 user_name, user_email, user_password, user_confirmpassword)
                 VALUES ($1, $2, $3, $4)`,
         [user_name, user_email, user_password, user_confirmPassword]
       );

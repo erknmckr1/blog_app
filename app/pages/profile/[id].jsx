@@ -53,28 +53,54 @@ function Profile({ session_user,posts }) {
       country: session_user.user_country || "",
       city: session_user.user_city || "",
       state: session_user.user_state || "",
-      img: session_user.user_img,
+      img: session_user.user_img || "/default.jpg",
     },
   });
 
   const onSubmit = async () => {
     try {
+      // Dosya varsa ve değiştirilmediyse veya dosya yoksa yanı resım zorunlu da degıl
+      if (!file || session_user.user_img === data.url) {
+        const updatedAccount = { ...values, img: session_user.user_img };
+        console.log(updatedAccount);
+
+        const confirmUpdate = window.confirm("Are you sure you want to update your account?");
+        if (!confirmUpdate) return; // Kullanıcı onay vermezse işlemi sonlandır
+  
+        const res = await axios.put(
+          `${process.env.NEXT_PUBLIC_url}getUser/updateUser/${session_user.user_id}`,
+          updatedAccount
+        );
+  
+        if (res.status === 200) {
+          toast.success("Updated Successfully.");
+        }
+        return; // Dosya yoksa veya değiştirilmediyse işlemi sonlandır
+      }
+  
+      // Dosya var ve değiştirildiyse Cloudinary'ye yükle
       const data = new FormData();
       data.append("file", file);
       data.append("upload_preset", "ecblog");
-
-      const uploadImg = await axios.post(
+  
+      const response = await axios.post(
         `https://api.cloudinary.com/v1_1/dh1medzkb/image/upload`,
         data
       );
-      const { url } = uploadImg.data;
-      const updatedAccount = { ...values, img: url };
+
+      const confirmUpdate = window.confirm("Are you sure you want to update your account?");
+      if (!confirmUpdate) return; // Kullanıcı onay vermezse işlemi sonlandır
+
+
+      const uploadImg = response.data.url;
+      const updatedAccount = { ...values, img: uploadImg };
       console.log(updatedAccount);
+  
       const res = await axios.put(
         `${process.env.NEXT_PUBLIC_url}getUser/updateUser/${session_user.user_id}`,
         updatedAccount
       );
-
+  
       if (res.status === 200) {
         toast.success("Updated Successfully.");
       }
@@ -82,6 +108,7 @@ function Profile({ session_user,posts }) {
       console.log(err);
     }
   };
+  
 
   //
   const handleSignOut = () => {
@@ -193,7 +220,7 @@ function Profile({ session_user,posts }) {
               width={100}
               height={100}
               className="w-[140px] h-[140px] rounded-full "
-              src={`${values.img}`}
+              src={`${values.img && values.img}`}
             />
             <span className="text-xl font-semibold py-3 ">{values.name}</span>
             <span className="font-semibold py-1">{values.email}</span>

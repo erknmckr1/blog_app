@@ -3,7 +3,10 @@ import Section from "@/components/Home/Section";
 import React from "react";
 import "tailwindcss/tailwind.css";
 import Head from "next/head";
-export default function Home() {
+import axios from "axios";
+
+export default function Home({posts}) {
+  console.log(posts)
   return (
     <div className="">
       <Head>
@@ -20,9 +23,24 @@ export default function Home() {
       </Head>
       <>
       <Carousel />
-      <Section />
+      <Section posts={posts} />
       </>
       
     </div>
   );
 }
+
+export const getServerSideProps = async (context) => {
+  const { req, params } = context;
+
+  
+  const posts = await axios.get(`${process.env.NEXT_PUBLIC_url}content`);
+
+  return {
+    props: {
+
+      posts : posts ? posts.data : null,
+    },
+  };
+};
+
