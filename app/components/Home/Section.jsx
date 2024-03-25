@@ -1,8 +1,8 @@
 import React from "react";
 
-function Section({ posts, pNews, pArticle }) {
+function  Section({ posts, pNews, pArticle }) {
 
-  console.log(pArticle.articles)
+  console.log(posts)
 
   return (
     <div>
@@ -10,7 +10,7 @@ function Section({ posts, pNews, pArticle }) {
         <div className="w-full flex justify-center ">
           <div className=" lg:container w-full p-1 h-auto">
             <h1 className="px-4 font-semibold text-[20px]">Recent News</h1>
-            <div className="w-full h-full flex flex-col sm:flex-row  ">
+            <div className="w-full h-full flex flex-col sm:flex-row">
               {/* left side */}
               <div className="lg:w-3/4 m-3 h-auto  ">
                 {posts.map((item, index) => (
@@ -28,7 +28,7 @@ function Section({ posts, pNews, pArticle }) {
                   ))}
                 </div>
                 <div className="w-full h-full mt-5">
-                  <h1 className="font-semibold mb-8 text-[18px] underline">Technology News</h1>
+                  <h1 className="font-semibold mb-8 text-[18px] underline">Popular Article</h1>
                   {pArticle.articles.slice(0, 5).map((item, index) => (
                     <PopularPost key={index} item={item} />
                   ))}
@@ -60,7 +60,7 @@ export function NewCard({ item }) {
         <div className="flex flex-col w-full h-full">
           {/* text-1 */}
           <span className="lg:text-[24px] lg:w-[700px] mt-4 py-2   px-4 bg-slate-200 static lg:absolute right-5">
-            {item.post_title && item.post_title}
+           <a href={`/postdetail/${item.post_id}`}>{item.post_title && item.post_title}</a>
           </span>
           {/* text & date */}
           <div className="static lg:absolute lg:bottom-2 px-3 mt-2 lg:mt-0 ">

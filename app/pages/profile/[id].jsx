@@ -63,7 +63,6 @@ function Profile({ session_user,posts }) {
       // Dosya varsa ve değiştirilmediyse veya dosya yoksa yanı resım zorunlu da degıl
       if (!file || session_user.user_img === values.img) {
         const updatedAccount = { ...values, img: session_user.user_img };
-        console.log(updatedAccount);
 
         const confirmUpdate = window.confirm("Are you sure you want to update your account?");
         if (!confirmUpdate) return; // Kullanıcı onay vermezse işlemi sonlandır
@@ -95,7 +94,6 @@ function Profile({ session_user,posts }) {
 
       const uploadImg = response.data.url;
       const updatedAccount = { ...values, img: uploadImg };
-      console.log(updatedAccount);
   
       const res = await axios.put(
         `${process.env.NEXT_PUBLIC_url}getUser/updateUser/${session_user.user_id}`,
@@ -107,11 +105,9 @@ function Profile({ session_user,posts }) {
       }
     } catch (err) {
       console.log(err);
-      console.log("x")
     }
   };
   
-  console.log(values)
   //
   const handleSignOut = () => {
     if (confirm("Are you sure you want to log out?")) {

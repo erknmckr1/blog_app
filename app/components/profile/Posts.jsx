@@ -34,7 +34,6 @@ console.log(posts)
 // };
 
 const handleDeleteClick = async (post_id) => {
-  console.log(post_id)
  
     const confirmation = window.confirm(`Delete user with ${post_id} ? `);
     if (confirmation) {

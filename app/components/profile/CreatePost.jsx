@@ -210,7 +210,7 @@ function CreatePost({ session_user, session }) {
   );
 
   return (
-    <div className="xl:w-3/4 w-full h-full p-4">
+    <div className="xl:w-3/4 w-full h-full sm:p-4">
       <span className="font-semibold text-[30px]">Create Content</span>
       <form className="w-full h-full mt-5 flex flex-col gap-y-5">
         {isBrowser && (
@@ -222,7 +222,7 @@ function CreatePost({ session_user, session }) {
           />
         )}
 
-        <div className=" flex justify-between pr-4 ">
+        <div className=" flex flex-col sm:flex-row justify-between sm:pr-4 ">
           <div>
           <Input
               prop="w-[400px]"
@@ -235,7 +235,7 @@ function CreatePost({ session_user, session }) {
               onChange={(e) => setTags(e.target.value)}
             />
             <Input
-              prop="w-[600px] mt-2"
+              prop="sm:w-[600px] w-[400px] mt-2"
               placeholder="Short Description"
               onChange={(e) => setShortDesc(e.target.value)}
             />
@@ -253,8 +253,8 @@ function CreatePost({ session_user, session }) {
             </select>
           </div>
           {/* img */}
-          <label className="flex items-center gap-x-10 " >
-            <span className="text-[20px] font-semibold">Cover İmage</span>
+          <label className="flex justify-between mt-3 sm:mt-0 items-center gap-x-10 " >
+            <span className="text-[16px] font-semibold">Cover İmage</span>
             <div className="flex  gap-2 items-center justify-center">
             <input
               onChange={(e) => handleFileChange(e)}
