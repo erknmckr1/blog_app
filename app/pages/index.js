@@ -5,8 +5,8 @@ import "tailwindcss/tailwind.css";
 import Head from "next/head";
 import axios from "axios";
 
-export default function Home({posts}) {
-  console.log(posts)
+export default function Home({posts,populerNews,populerArticle}) {
+
   return (
     <div className="">
       <Head>
@@ -22,8 +22,8 @@ export default function Home({posts}) {
         />  
       </Head>
       <>
-      <Carousel />
-      <Section posts={posts} />
+      <Carousel posts={posts} />
+      <Section posts={posts} pNews={populerNews} pArticle = {populerArticle} />
       </>
       
     </div>
@@ -33,14 +33,17 @@ export default function Home({posts}) {
 export const getServerSideProps = async (context) => {
   const { req, params } = context;
 
-  
-  const posts = await axios.get(`${process.env.NEXT_PUBLIC_url}content`);
+  const postsResponse = await axios.get(`${process.env.NEXT_PUBLIC_url}content`);
+  const posts = postsResponse.data.reverse(); // Diziyi tersine çevir
+
+  const populerNewsResponse = await axios.get("https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=a8ae07b7778c4e50aab671e9a3afc737")
+  const populerArtıcle = await axios.get("https://newsapi.org/v2/everything?domains=wsj.com&apiKey=a8ae07b7778c4e50aab671e9a3afc737")
 
   return {
     props: {
-
-      posts : posts ? posts.data : null,
+      posts: posts ? posts : null,
+      populerNews: populerNewsResponse ? populerNewsResponse.data : null,
+      populerArticle:populerArtıcle ? populerArtıcle.data : null,
     },
   };
 };
-

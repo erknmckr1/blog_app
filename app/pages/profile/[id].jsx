@@ -59,8 +59,9 @@ function Profile({ session_user,posts }) {
 
   const onSubmit = async () => {
     try {
+
       // Dosya varsa ve değiştirilmediyse veya dosya yoksa yanı resım zorunlu da degıl
-      if (!file || session_user.user_img === data.url) {
+      if (!file || session_user.user_img === values.img) {
         const updatedAccount = { ...values, img: session_user.user_img };
         console.log(updatedAccount);
 
@@ -77,7 +78,7 @@ function Profile({ session_user,posts }) {
         }
         return; // Dosya yoksa veya değiştirilmediyse işlemi sonlandır
       }
-  
+     
       // Dosya var ve değiştirildiyse Cloudinary'ye yükle
       const data = new FormData();
       data.append("file", file);
@@ -106,10 +107,11 @@ function Profile({ session_user,posts }) {
       }
     } catch (err) {
       console.log(err);
+      console.log("x")
     }
   };
   
-
+  console.log(values)
   //
   const handleSignOut = () => {
     if (confirm("Are you sure you want to log out?")) {
