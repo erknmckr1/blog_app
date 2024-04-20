@@ -14,7 +14,7 @@ function PostDetail({ postDetail, populerNews, populerArticle }) {
               {/* left*/}
               <div className="lg:w-3/4 m-3 h-auto  ">
                 <div className="w-full h-full flex flex-col items-center gap-y-2">
-                  <span className="bg-orange-500 text-center p-1 font-semibold text-white">
+                  <span className="bg-orange-500 text-left p-1 font-semibold text-white">
                     {postDetail.post_category && postDetail.post_category}
                   </span>
                   <span className="p-1 text-[25px] text-center font-semibold text-black">
@@ -25,6 +25,7 @@ function PostDetail({ postDetail, populerNews, populerArticle }) {
                     <span className="p-1 text-black">
                       {postDetail.user_name && postDetail.user_name}
                     </span>
+                    {/* text editor */}
                     <div
                       className="text-[15px]"
                       dangerouslySetInnerHTML={{

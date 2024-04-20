@@ -40,7 +40,6 @@ function login() {
     handleChange,
     handleSubmit,
     handleBlur,
-    resetForm,
   } = useFormik({
     initialValues: {
       email: "",
@@ -70,7 +69,7 @@ function login() {
     },
   ];
 
-   
+
   // Kullanıcı gırısı oldugunda yada varsa biz sayfa yonlendırmesını asagıdakı gıbı yapıyoruz fakat bu işlemde
   // diyelim ki Home sayfasından profıle sayfasına tıkladık eger kullanıcı gırısı var ıse dırekt profile sayfasına
   // gıtmesını ısterız. Fakat useEffect ıle yaptıgımız taktırde once logın sayfasına daha sonra profile sayfasına
@@ -81,15 +80,15 @@ function login() {
     const getUser = async () => {
       const users = await axios.get(`${process.env.NEXT_PUBLIC_url}getUser`);
       const user = users.data.find((item) => item.user_email === session?.user.email);
-  
+
       if (user && session) {
         push(`/profile/${user.user_id}`);
       }
     };
-  
+
     getUser();
   }, [session]);
-  
+
 
 
   return (
@@ -99,16 +98,19 @@ function login() {
         className="flex flex-col  items-center justify-center gap-y-4 w-[600px]"
       >
         <span className="mt-5 text-[30px] font-semibold">Login User</span>
-        <div className=" flex flex-col gap-y-4">
-          {inputs.map((input) => (
-            <Input
-              key={input.id}
-              {...input}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              prop=" w-[350px] xl:w-[500px]"
-            />
-          ))}
+        <div className=" flex justify-center  ">
+          <div className="w-[350px] xl:w-[500px]">
+            {inputs.map((input) => (
+              <Input
+                key={input.id}
+                {...input}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                prop=" w-[350px] xl:w-[500px] mt-2"
+              />
+            ))}
+          </div>
+
         </div>
         <div className="flex flex-col items-center justify-center w-full mt-6 gap-y-3 text-black">
           <button type="submit" className="btn">

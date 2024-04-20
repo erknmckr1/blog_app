@@ -1,16 +1,17 @@
 import React from "react";
 
-function Carousel({ posts}) {
+function Carousel({ posts }) {
   // posts data son 3 verıyı al sıralamayı tersıne cevır ve carousel de goster...
   const sortingData = posts
-  
-console.log(sortingData)
-  
+
+
+
   return (
-    <div className="w-screen h-[810px] m:h-[500px] lg:h-[600px] xl:h-[700px] 2xl:h-[810px] overflow-hidden duration-300 transition-all  ">
-      <div className="w-full h-full flex flex-col sm:flex-row justify-between items-center py-1 ">
+    <div className="w-auto h-[810px] m:h-[500px] lg:h-[600px] xl:h-[700px] 2xl:h-[810px] overflow-hidden duration-300 transition-all  ">
+      <div className="w-full h-full flex flex-col sm:flex-row justify-between items-center sm:p-3  ">
+
         {/* new card 1  */}
-        <div className="h-[500px] sm:h-full sm:w-1/2 w-full relative overflow-hidden  ">
+        <div className="h-[500px] sm:h-full sm:w-1/2 w-full relative overflow-hidden py-1 sm:py-0  ">
           {/* img */}
           <div className="w-full h-full sm:flex justify-center items-center sm:p-2 bg-red-300">
             <img
@@ -35,10 +36,10 @@ console.log(sortingData)
           </div>
         </div>
         {/* new cards 2  */}
-        <div className="sm:w-1/2 w-full h-full flex flex-col sm:flex-row gap-x-1 mt-1 sm:mt-0 sm:ml-1">
-          {sortingData.slice(1,3).map((item, index) => (
+        <div className="sm:w-1/2 w-full h-full flex flex-col gap-y-2 sm:gap-y-0 sm:flex-row gap-x-1 mt-1 sm:mt-0 sm:ml-1 ">
+          {sortingData.slice(1, 3).map((item, index) => (
             <div key={index} className="sm:w-1/2  w-full h-full  bg-black relative overflow-hidden">
-              <div className="w-full h-full sm:flex justify-center items-center sm:p-2 bg-red-300">
+              <div className="w-full h-full sm:flex justify-center  items-center sm:p-2 bg-red-300">
                 <img
                   className="absolute z-0 w-full h-full hover:scale-110 duration-300 transition-all ease-in-out"
                   src={item.cover_img}
@@ -52,7 +53,7 @@ console.log(sortingData)
                 </span>
                 <span className="text-white w-auto  text-[16px]">
                   {" "}
-                 <a  href={`/postdetail/${item.post_id}`}> {item.post_shortdesc}</a>
+                  <a href={`/postdetail/${item.post_id}`}> {item.post_shortdesc}</a>
                 </span>
                 <div className="text-white">
                   <span>24 JULY, 2017</span>
@@ -64,6 +65,7 @@ console.log(sortingData)
 
         </div>
       </div>
+
     </div>
   );
 }

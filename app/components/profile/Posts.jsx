@@ -7,7 +7,6 @@ import { toast } from "react-toastify";
 
 
 function Posts({ posts }) {
-console.log(posts)
   // delete function
 // const TrashButton = ({ post_id }) => {
 //   const handleDelete = async () => {
@@ -101,7 +100,7 @@ const handleDeleteClick = async (post_id) => {
   }));
 
   return (
-    <div className="w-full h-auto p-4">
+    <div className="w-full xl:w-3/4 h-auto p-4">
       <span className="font-semibold text-[30px]">Gönderiler</span>
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid

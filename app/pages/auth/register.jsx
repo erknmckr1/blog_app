@@ -67,6 +67,7 @@ function register() {
     },
   ];
 
+  console.log(values)
   const  userRegistration = async (e) => {
     e.preventDefault();
     const userInfo = {user_name:values.name,user_email:values.email,user_password:values.password,user_confirmPassword:values.confirmPassword};

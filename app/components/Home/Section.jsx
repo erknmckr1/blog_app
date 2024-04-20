@@ -2,14 +2,14 @@ import React from "react";
 
 function  Section({ posts, pNews, pArticle }) {
 
-  console.log(posts)
+
 
   return (
     <div>
       <section className="py-10 sm:px-10 lg:py-20 w-screen h-auto ">
         <div className="w-full flex justify-center ">
           <div className=" lg:container w-full p-1 h-auto">
-            <h1 className="px-4 font-semibold text-[20px]">Recent News</h1>
+            <h1 className="px-4 font-semibold text-[20px]">Recent Posts</h1>
             <div className="w-full h-full flex flex-col sm:flex-row">
               {/* left side */}
               <div className="lg:w-3/4 m-3 h-auto  ">
@@ -52,7 +52,7 @@ export default Section;
 // left side 
 export function NewCard({ item }) {
   return (
-    <div className="lg:w-[855px] lg:h-[260px] h-[580px] p-1 my-6  ">
+    <div className="lg:w-[855px] lg:h-[260px] h-[580px] p-4 my-6 bg-[#F4F6F6] rounded-md  ">
       <div className="w-full h-full flex flex-col lg:flex-row relative">
         {/* img */}
         <img className="lg:w-1/4 w-full h-full  hover:scale-90 transition-all duration-300" src={`${item.cover_img ? item.cover_img : "/vercel.svg"}`} alt="" />
